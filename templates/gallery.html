@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head><title>Gallery</title></head>
+<body>
+  <h1>Uploaded Images</h1>
+  {% for img in images %}
+    <div style="margin-bottom:20px;">
+      <p><strong>Filename:</strong> {{ img.filename }}</p>
+      <img src="{{ img.thumbnail_url or img.s3_url }}" width="200">
+      <p><strong>Caption:</strong> {{ img.caption or 'Pending...' }}</p>
+    </div>
+  {% endfor %}
+  <a href="{{ url_for('upload') }}">Upload More</a>
+</body>
+</html>
