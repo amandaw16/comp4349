@@ -12,10 +12,10 @@ app = Flask(__name__)
 S3_BUCKET = 'awal8482-img-bucket'
 THUMBNAIL_PREFIX = 'thumbnails/'
 
-DB_HOST = os.environ.get('DB_HOST', 'your-rds-endpoint')
-DB_USER = os.environ.get('DB_USER', 'admin')
-DB_PASS = os.environ.get('DB_PASS', 'your-password')
-DB_NAME = 'image_caption_db'
+DB_HOST = os.environ.get('DB_HOST')
+DB_USER = os.environ.get('DB_USER')
+DB_PASS = os.environ.get('DB_PASS')
+DB_NAME = os.environ.get('DB_NAME')
 
 # s3 client 
 s3 = boto3.client('s3')
@@ -51,8 +51,8 @@ def upload():
         conn = get_db()
         with conn:
             with conn.cursor() as cursor:
-                sql = "INSERT INTO images (filename, upload_time) VALUES (%s, %s)"
-                cursor.execute(sql, (s3_key, timestamp))
+                sql = "INSERT INTO captions (image_key, caption, thumbnail_url, uploaded_at) VALUES (%s, %s, %s, %s)"
+                cursor.execute(sql, (s3_key, None, None, timestamp))
             conn.commit()
 
         return redirect(url_for('gallery'))
@@ -66,16 +66,14 @@ def gallery():
     images = []
     with conn:
         with conn.cursor() as cursor:
-            cursor.execute("SELECT * FROM images ORDER BY upload_time DESC")
+            cursor.execute("SELECT * FROM captions ORDER BY uploaded_at DESC")
             images = cursor.fetchall()
 
     for img in images:
-        img['s3_url'] = f"https://{S3_BUCKET}.s3.amazonaws.com/{img['filename']}"
-        if img.get('thumbnail_key'):
-            img['thumbnail_url'] = f"https://{S3_BUCKET}.s3.amazonaws.com/{img['thumbnail_key']}"
-        else:
-            img['thumbnail_url'] = None
+        img['s3_url'] = f"https://{S3_BUCKET}.s3.amazonaws.com/{img['image_key']}"
+       	filename = img['image_key'].split('/')[-1]
+        img['thumbnail_url'] = f"https://{S3_BUCKET}.s3.amazonaws.com/thumbnails/{filename}"
     return render_template('gallery.html', images=images)
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=5000)

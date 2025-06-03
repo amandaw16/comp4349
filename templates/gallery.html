@@ -4,12 +4,19 @@
 <body>
   <h1>Uploaded Images</h1>
   {% for img in images %}
-    <div style="margin-bottom:20px;">
-      <p><strong>Filename:</strong> {{ img.filename }}</p>
-      <img src="{{ img.thumbnail_url or img.s3_url }}" width="200">
+    <div style="margin-bottom:30px;">
+      <p><strong>Filename:</strong> {{ img.image_key }}</p>
+
+      <p><strong>Thumbnail:</strong></p>
+      <img src="{{ img.thumbnail_url or img.s3_url }}" width="150"><br>
+
+      <p><strong>Full Image:</strong></p>
+      <img src="{{ img.s3_url }}" width="400"><br>
+
       <p><strong>Caption:</strong> {{ img.caption or 'Pending...' }}</p>
     </div>
   {% endfor %}
   <a href="{{ url_for('upload') }}">Upload More</a>
 </body>
 </html>
+
