@@ -34,6 +34,12 @@ def get_db():
 def home():
     return redirect(url_for('upload'))
 
+
+@app.route('/health')
+def health_check():
+    return 'OK', 200
+
+
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
     if request.method == 'POST':
