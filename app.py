@@ -5,7 +5,9 @@ import boto3
 import pymysql
 import os
 from datetime import datetime
+from dotenv import load_dotenv
 
+load_dotenv()
 app = Flask(__name__)
 
 # config
@@ -14,7 +16,7 @@ THUMBNAIL_PREFIX = 'thumbnails/'
 
 DB_HOST = os.environ.get('DB_HOST')
 DB_USER = os.environ.get('DB_USER')
-DB_PASS = os.environ.get('DB_PASS')
+DB_PASS = os.environ.get('DB_PASSWORD')
 DB_NAME = os.environ.get('DB_NAME')
 
 # s3 client 
