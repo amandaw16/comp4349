@@ -74,7 +74,7 @@ def gallery():
     images = []
     with conn:
         with conn.cursor() as cursor:
-            cursor.execute("SELECT * FROM captions ORDER BY uploaded_at DESC")
+            cursor.execute("SELECT * FROM captions")
             images = cursor.fetchall()
 
     for img in images:
