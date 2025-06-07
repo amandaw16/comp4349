@@ -3,7 +3,7 @@
 # RDS connection details — FILL THESE IN BEFORE RUNNING
 DB_HOST="${DB_HOST:?Missing DB_HOST}"
 DB_USER="${DB_USER:?Missing DB_USER}"
-DB_PASSWORD="{DB_PASSWORD:?Missing DB_PASSWORD}"  # ❗ Replace with your actual RDS password
+DB_PASSWORD="{DB_PASSWORD:?Missing DB_PASSWORD}"  
 
 SQL_COMMANDS=$(cat <<EOF
 /*
