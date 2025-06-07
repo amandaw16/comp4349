@@ -30,9 +30,9 @@ mysql -h "$DB_HOST" -u "$DB_USER" -p"$DB_PASSWORD" -e "$SQL_COMMANDS"
 
 # Check if the previous command was successful
 if [ $? -eq 0 ]; then
-    echo "✅ Database and table created successfully!"
+    echo "Database and table created successfully!"
 else
-    echo "❌ Error: Failed to create database and table. Please check the connection details and try again."
+    echo "Error: Failed to create database and table. Please check the connection details and try again."
     exit 1
 fi
 
